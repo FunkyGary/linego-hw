@@ -59,6 +59,7 @@ export default function BottomDrawer({
                     <CheckCircleOutlineIcon
                         style={{ fontSize: 60 }}
                         className="mb-2"
+                        color="info"
                     />
                     <Typography variant="subtitle1" gutterBottom>
                         完成送機行程
