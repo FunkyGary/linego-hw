@@ -21,7 +21,8 @@ export default function BottomDrawer({
                 .then((res) => res.json())
                 .then((data) => {
                     return data.some(
-                        (e) => `${e.AirlineID}${e.FlightNumber}` === flight
+                        (e: { AirlineID: string; FlightNumber: string }) =>
+                            `${e.AirlineID}${e.FlightNumber}` === flight
                     );
                 }),
     });
