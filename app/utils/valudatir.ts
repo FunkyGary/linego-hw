@@ -4,7 +4,7 @@ export const nameValidator = (value: string): string | false => {
 };
 
 export const flightValidator = (value: string): string | false => {
-    if (!/^[a-zA-Z]+$/.test(value)) return "請輸入英文字母大小寫";
+    if (!/^[a-zA-Z0-9]+$/.test(value)) return "請輸入英文字母與數字";
     return false;
 };
 

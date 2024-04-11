@@ -5,25 +5,27 @@ import { TextField } from "@mui/material";
 interface Props {
     label: string;
     validator: (value: string) => string | false;
-    onChange: (isValid: boolean) => void;
-    name: string;
+    onChange: (isValid: boolean, newValue: string) => void;
+    autoComplete?: string;
+    className?: string;
+    value: string;
 }
 
 export default function ValidatedTextField({
     label,
     validator,
     onChange,
-    name,
+    autoComplete,
+    className,
+    value,
 }: Props) {
-    const [value, setValue] = useState<string>("");
     const [error, setError] = useState<string | false>(false);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value;
         const errorMessage = validator(newValue);
-        setValue(newValue);
         setError(errorMessage);
-        onChange(!errorMessage);
+        onChange(!errorMessage, newValue);
     };
 
     return (
@@ -34,7 +36,8 @@ export default function ValidatedTextField({
             error={!!error}
             helperText={error}
             required
-            name={name}
+            autoComplete={autoComplete}
+            className={className}
         />
     );
 }
