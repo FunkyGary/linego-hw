@@ -1,5 +1,5 @@
 "use client";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useCallback } from "react";
 import { TextField } from "@mui/material";
 
 interface Props {
@@ -20,13 +20,12 @@ export default function ValidatedTextField({
     value,
 }: Props) {
     const [error, setError] = useState<string | false>(false);
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value;
         const errorMessage = validator(newValue);
         setError(errorMessage);
         onChange(!errorMessage, newValue);
-    };
+    }, []);
 
     return (
         <TextField

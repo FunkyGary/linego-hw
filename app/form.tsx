@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { TextField, Typography, Box, Button } from "@mui/material";
 import ValidatedTextField from "./components/ValidatedTextField";
 import BottomDrawer from "./components/BottomDrawer";
@@ -36,14 +36,17 @@ export default function Form() {
         }
     }, [formValid]);
 
-    function toggleDrawer(newOpen: boolean) {
+    const toggleDrawer = useCallback((newOpen: boolean) => {
         setOpen(newOpen);
-    }
+    }, []);
 
-    const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        toggleDrawer(true);
-    };
+    const handleSubmit = useCallback(
+        (e: React.SyntheticEvent<HTMLFormElement>) => {
+            e.preventDefault();
+            toggleDrawer(true);
+        },
+        []
+    );
 
     return (
         <Box
