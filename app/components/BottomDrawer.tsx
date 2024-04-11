@@ -59,7 +59,7 @@ export default function BottomDrawer({
                     <CheckCircleOutlineIcon
                         style={{ fontSize: 60 }}
                         className="mb-2"
-                        color="info"
+                        color="action"
                     />
                     <Typography variant="subtitle1" gutterBottom>
                         完成送機行程
@@ -87,7 +87,7 @@ export default function BottomDrawer({
                         確認航班資訊，並送出
                     </Button>
                     <Button
-                        variant="contained"
+                        variant="outlined"
                         color="primary"
                         type="submit"
                         className="my-1 w-full"

@@ -66,7 +66,7 @@ export default function Form() {
                 送機行程
             </Typography>
             <Typography variant="subtitle1" gutterBottom className="my-2">
-                送機資訊
+                送機計畫
             </Typography>
             <TextField
                 required
