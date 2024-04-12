@@ -10,7 +10,7 @@ import {
     nameValidator,
     phoneValidator,
     IDValidator,
-} from "./utils/valudatir";
+} from "./utils/validator";
 
 export default function Form() {
     const [formValid, setFormValid] = useState({
@@ -37,7 +37,7 @@ export default function Form() {
     }, [formValid]);
 
     const toggleDrawer = useCallback((newOpen: boolean) => {
-        setOpen(newOpen);
+        setOpenDrawer(newOpen);
     }, []);
 
     const handleSubmit = useCallback(
@@ -47,7 +47,7 @@ export default function Form() {
         },
         []
     );
-
+    console.log(formContext);
     return (
         <Box
             component="form"

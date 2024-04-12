@@ -20,12 +20,12 @@ export default function ValidatedTextField({
     value,
 }: Props) {
     const [error, setError] = useState<string | false>(false);
-    const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value;
         const errorMessage = validator(newValue);
         setError(errorMessage);
         onChange(!errorMessage, newValue);
-    }, []);
+    };
 
     return (
         <TextField
