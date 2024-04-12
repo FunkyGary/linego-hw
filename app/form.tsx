@@ -25,14 +25,14 @@ export default function Form() {
         phone: "",
         ID: "",
     });
-    const [submitDisabled, setSubmitDisabled] = useState(true);
-    const [open, setOpen] = useState(false);
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+    const [openDrawer, setOpenDrawer] = useState(false);
 
     useEffect(() => {
         if (Object.values(formValid).every((isValid) => isValid)) {
-            setSubmitDisabled(false);
+            setIsSubmitDisabled(false);
         } else {
-            setSubmitDisabled(true);
+            setIsSubmitDisabled(true);
         }
     }, [formValid]);
 
@@ -134,13 +134,13 @@ export default function Form() {
                 variant="contained"
                 color="primary"
                 type="submit"
-                disabled={submitDisabled}
+                disabled={isSubmitDisabled}
                 className="my-2"
             >
                 Submit
             </Button>
             <Drawer
-                open={open}
+                open={openDrawer}
                 onClose={() => toggleDrawer(false)}
                 anchor="bottom"
             >
