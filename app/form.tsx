@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from "react";
-import { TextField, Typography, Box, Button } from "@mui/material";
+import { TextField, Typography, Box, Button, Drawer } from "@mui/material";
 import ValidatedTextField from "./components/ValidatedTextField";
 import BottomDrawer from "./components/BottomDrawer";
-import Drawer from "@mui/material/Drawer";
 import {
     flightValidator,
     nameValidator,
@@ -12,14 +11,28 @@ import {
     IDValidator,
 } from "./utils/validator";
 
-export default function Form() {
-    const [formValid, setFormValid] = useState({
+interface FormContext {
+    name: string;
+    flight: string;
+    phone: string;
+    ID: string;
+}
+
+interface FormValid {
+    name: boolean;
+    flight: boolean;
+    phone: boolean;
+    ID: boolean;
+}
+
+export default function Form(): JSX.Element {
+    const [formValid, setFormValid] = useState<FormValid>({
         name: false,
         flight: false,
         phone: false,
         ID: false,
     });
-    const [formContext, setFormContext] = useState({
+    const [formContext, setFormContext] = useState<FormContext>({
         name: "",
         flight: "",
         phone: "",
@@ -29,11 +42,9 @@ export default function Form() {
     const [openDrawer, setOpenDrawer] = useState(false);
 
     useEffect(() => {
-        if (Object.values(formValid).every((isValid) => isValid)) {
-            setIsSubmitDisabled(false);
-        } else {
-            setIsSubmitDisabled(true);
-        }
+        setIsSubmitDisabled(
+            !Object.values(formValid).every((isValid) => isValid)
+        );
     }, [formValid]);
 
     const toggleDrawer = useCallback((newOpen: boolean) => {
@@ -41,13 +52,27 @@ export default function Form() {
     }, []);
 
     const handleSubmit = useCallback(
-        (e: React.SyntheticEvent<HTMLFormElement>) => {
+        (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
             toggleDrawer(true);
         },
+        [toggleDrawer]
+    );
+
+    const handleFieldChange = useCallback(
+        (field: keyof FormContext, isValid: boolean, newValue: string) => {
+            setFormValid((prevFormValid) => ({
+                ...prevFormValid,
+                [field]: isValid,
+            }));
+            setFormContext((prevFormContext) => ({
+                ...prevFormContext,
+                [field]: newValue,
+            }));
+        },
         []
     );
-    console.log(formContext);
+
     return (
         <Box
             component="form"
@@ -81,10 +106,9 @@ export default function Form() {
             <ValidatedTextField
                 label="航班編號"
                 validator={flightValidator}
-                onChange={(isValid, newValue) => {
-                    setFormValid({ ...formValid, flight: isValid });
-                    setFormContext({ ...formContext, flight: newValue });
-                }}
+                onChange={(isValid, newValue) =>
+                    handleFieldChange("flight", isValid, newValue)
+                }
                 className="my-2"
                 value={formContext.flight}
             />
@@ -94,10 +118,9 @@ export default function Form() {
             <ValidatedTextField
                 label="姓名"
                 validator={nameValidator}
-                onChange={(isValid, newValue) => {
-                    setFormValid({ ...formValid, name: isValid });
-                    setFormContext({ ...formContext, name: newValue });
-                }}
+                onChange={(isValid, newValue) =>
+                    handleFieldChange("name", isValid, newValue)
+                }
                 autoComplete="name"
                 className="my-2"
                 value={formContext.name}
@@ -107,20 +130,18 @@ export default function Form() {
                 validator={phoneValidator}
                 autoComplete="tel"
                 className="my-2"
-                onChange={(isValid, newValue) => {
-                    setFormValid({ ...formValid, phone: isValid });
-                    setFormContext({ ...formContext, phone: newValue });
-                }}
+                onChange={(isValid, newValue) =>
+                    handleFieldChange("phone", isValid, newValue)
+                }
                 value={formContext.phone}
             />
             <ValidatedTextField
                 label="身份字號/護照編號"
                 validator={IDValidator}
                 className="my-2"
-                onChange={(isValid, newValue) => {
-                    setFormValid({ ...formValid, ID: isValid });
-                    setFormContext({ ...formContext, ID: newValue });
-                }}
+                onChange={(isValid, newValue) =>
+                    handleFieldChange("ID", isValid, newValue)
+                }
                 value={formContext.ID}
             />
             <TextField
@@ -145,7 +166,7 @@ export default function Form() {
                 anchor="bottom"
             >
                 <BottomDrawer
-                    flight={`${formContext.flight}`}
+                    flight={formContext.flight}
                     toggleDrawer={toggleDrawer}
                 />
             </Drawer>

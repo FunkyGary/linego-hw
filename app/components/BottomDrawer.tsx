@@ -4,35 +4,37 @@ import { useQuery } from "@tanstack/react-query";
 import { Typography, CircularProgress, Button } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
+interface BottomDrawerProps {
+    flight: string;
+    toggleDrawer: (newOpen: boolean) => void;
+}
+
 export default function BottomDrawer({
     flight,
     toggleDrawer,
-}: {
-    flight: string;
-    toggleDrawer: (newOpen: boolean) => void;
-}) {
+}: BottomDrawerProps) {
     const [submit, setSubmit] = useState(false);
     const { isPending, data } = useQuery({
         queryKey: ["repoData"],
-        queryFn: () =>
-            fetch(
+        queryFn: async () => {
+            const res = await fetch(
                 "https://tdx.transportdata.tw/api/basic/v2/Air/FIDS/Airport/Departure/TPE?$orderby=ScheduleDepartureTime&$format=JSON"
-            )
-                .then((res) => res.json())
-                .then((data) => {
-                    return data.some(
-                        (e: { AirlineID: string; FlightNumber: string }) =>
-                            `${e.AirlineID}${e.FlightNumber}` === flight
-                    );
-                }),
+            );
+            const data = await res.json();
+            return data.some(
+                (e: { AirlineID: string; FlightNumber: string }) =>
+                    `${e.AirlineID}${e.FlightNumber}` === flight
+            );
+        },
     });
 
-    if (isPending)
+    if (isPending) {
         return (
             <Box sx={{ display: "flex" }}>
                 <CircularProgress />
             </Box>
         );
+    }
 
     return (
         <Box
