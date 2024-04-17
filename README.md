@@ -22,4 +22,4 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ## Deploy on Vercel
 
-demo site: https://linego-c9bsewoyp-funkygarys-projects.vercel.app/
+demo site: https://linego-hw.vercel.app/
