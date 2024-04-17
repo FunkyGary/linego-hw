@@ -2,14 +2,14 @@
 
 import React, { useEffect, useState, useCallback } from "react";
 import { TextField, Typography, Box, Button, Drawer } from "@mui/material";
-import ValidatedTextField from "./components/ValidatedTextField";
-import BottomDrawer from "./components/BottomDrawer";
+import ValidatedTextField from "../components/ValidatedTextField";
+import BottomDrawer from "../components/BottomDrawer";
 import {
     flightValidator,
     nameValidator,
     phoneValidator,
     IDValidator,
-} from "./utils/validator";
+} from "../utils/validator";
 
 interface FormContext {
     name: string;
@@ -77,11 +77,9 @@ export default function Form(): JSX.Element {
         <Box
             component="form"
             onSubmit={handleSubmit}
-            sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-            }}
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
             noValidate
             className="mx-4 max-w-screen-sm"
         >
